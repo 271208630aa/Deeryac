@@ -1,21 +1,22 @@
 package com.deerYac.bean;
 
+import com.deerYac.bean.extend.TSysUserExt;
+
 import javax.persistence.*;
 import java.util.Date;
 
 /**
- * Created by jjwang on 2015/12/5.
+ * 用户
+ * Created by jjwang on 2015/12/5 19:11.
  */
 @Entity
 @Table(name = "t_sys_user")
-public class TSysUser {
+public class TSysUser extends TSysUserExt {
     private String id;
-    private Integer age;
     private String departid;
     private String email;
     private String name;
     private String password;
-    private Integer sex;
     private Integer usertype;
     private String loginid;
     private Integer menutype;
@@ -31,16 +32,6 @@ public class TSysUser {
 
     public void setId(String id) {
         this.id = id;
-    }
-
-    @Basic
-    @Column(name = "age")
-    public Integer getAge() {
-        return age;
-    }
-
-    public void setAge(Integer age) {
-        this.age = age;
     }
 
     @Basic
@@ -81,16 +72,6 @@ public class TSysUser {
 
     public void setPassword(String password) {
         this.password = password;
-    }
-
-    @Basic
-    @Column(name = "sex")
-    public Integer getSex() {
-        return sex;
-    }
-
-    public void setSex(Integer sex) {
-        this.sex = sex;
     }
 
     @Basic
@@ -155,24 +136,48 @@ public class TSysUser {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
 
         TSysUser that = (TSysUser) o;
 
-        if (id != null ? !id.equals(that.id) : that.id != null) return false;
-        if (age != null ? !age.equals(that.age) : that.age != null) return false;
-        if (departid != null ? !departid.equals(that.departid) : that.departid != null) return false;
-        if (email != null ? !email.equals(that.email) : that.email != null) return false;
-        if (name != null ? !name.equals(that.name) : that.name != null) return false;
-        if (password != null ? !password.equals(that.password) : that.password != null) return false;
-        if (sex != null ? !sex.equals(that.sex) : that.sex != null) return false;
-        if (usertype != null ? !usertype.equals(that.usertype) : that.usertype != null) return false;
-        if (loginid != null ? !loginid.equals(that.loginid) : that.loginid != null) return false;
-        if (menutype != null ? !menutype.equals(that.menutype) : that.menutype != null) return false;
-        if (enable != null ? !enable.equals(that.enable) : that.enable != null) return false;
-        if (startdate != null ? !startdate.equals(that.startdate) : that.startdate != null) return false;
-        if (enddate != null ? !enddate.equals(that.enddate) : that.enddate != null) return false;
+        if (id != null ? !id.equals(that.id) : that.id != null) {
+            return false;
+        }
+        if (departid != null ? !departid.equals(that.departid) : that.departid != null) {
+            return false;
+        }
+        if (email != null ? !email.equals(that.email) : that.email != null) {
+            return false;
+        }
+        if (name != null ? !name.equals(that.name) : that.name != null) {
+            return false;
+        }
+        if (password != null ? !password.equals(that.password) : that.password != null) {
+            return false;
+        }
+        if (usertype != null ? !usertype.equals(that.usertype) : that.usertype != null) {
+            return false;
+        }
+        if (loginid != null ? !loginid.equals(that.loginid) : that.loginid != null) {
+            return false;
+        }
+        if (menutype != null ? !menutype.equals(that.menutype) : that.menutype != null) {
+            return false;
+        }
+        if (enable != null ? !enable.equals(that.enable) : that.enable != null) {
+            return false;
+        }
+        if (startdate != null ? !startdate.equals(that.startdate) : that.startdate != null) {
+            return false;
+        }
+        if (enddate != null ? !enddate.equals(that.enddate) : that.enddate != null) {
+            return false;
+        }
 
         return true;
     }
@@ -180,12 +185,10 @@ public class TSysUser {
     @Override
     public int hashCode() {
         int result = id != null ? id.hashCode() : 0;
-        result = 31 * result + (age != null ? age.hashCode() : 0);
         result = 31 * result + (departid != null ? departid.hashCode() : 0);
         result = 31 * result + (email != null ? email.hashCode() : 0);
         result = 31 * result + (name != null ? name.hashCode() : 0);
         result = 31 * result + (password != null ? password.hashCode() : 0);
-        result = 31 * result + (sex != null ? sex.hashCode() : 0);
         result = 31 * result + (usertype != null ? usertype.hashCode() : 0);
         result = 31 * result + (loginid != null ? loginid.hashCode() : 0);
         result = 31 * result + (menutype != null ? menutype.hashCode() : 0);
