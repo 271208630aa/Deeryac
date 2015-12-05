@@ -1,129 +1,197 @@
 package com.deerYac.bean;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
+import java.util.Date;
 
 /**
- * TSysUser entity. @author MyEclipse Persistence Tools
+ * Created by jjwang on 2015/12/5.
  */
 @Entity
 @Table(name = "t_sys_user")
-public class TSysUser implements java.io.Serializable {
+public class TSysUser {
+    private String id;
+    private Integer age;
+    private String departid;
+    private String email;
+    private String name;
+    private String password;
+    private Integer sex;
+    private Integer usertype;
+    private String loginid;
+    private Integer menutype;
+    private Integer enable;
+    private Date startdate;
+    private Date enddate;
 
-	// Fields
+    @Id
+    @Column(name = "id")
+    public String getId() {
+        return id;
+    }
 
-	private String id;
-	private String name;
-	private Integer age;
-	private Integer sex;
-	private String email;
-	private String password;
-	private Integer usertype;
-	private String departid;
+    public void setId(String id) {
+        this.id = id;
+    }
 
-	// Constructors
+    @Basic
+    @Column(name = "age")
+    public Integer getAge() {
+        return age;
+    }
 
-	/** default constructor */
-	public TSysUser() {
-	}
+    public void setAge(Integer age) {
+        this.age = age;
+    }
 
-	/** minimal constructor */
-	public TSysUser(String id) {
-		this.id = id;
-	}
+    @Basic
+    @Column(name = "departid")
+    public String getDepartid() {
+        return departid;
+    }
 
-	/** full constructor */
-	public TSysUser(String id, String name, Integer age, Integer sex,
-			String email, String password, Integer usertype, String departid) {
-		this.id = id;
-		this.name = name;
-		this.age = age;
-		this.sex = sex;
-		this.email = email;
-		this.password = password;
-		this.usertype = usertype;
-		this.departid = departid;
-	}
+    public void setDepartid(String departid) {
+        this.departid = departid;
+    }
 
-	// Property accessors
-	@Id
-	@Column(name = "id", unique = true, nullable = false, length = 50)
-	public String getId() {
-		return this.id;
-	}
+    @Basic
+    @Column(name = "email")
+    public String getEmail() {
+        return email;
+    }
 
-	public void setId(String id) {
-		this.id = id;
-	}
+    public void setEmail(String email) {
+        this.email = email;
+    }
 
-	@Column(name = "name", length = 300)
-	public String getName() {
-		return this.name;
-	}
+    @Basic
+    @Column(name = "name")
+    public String getName() {
+        return name;
+    }
 
-	public void setName(String name) {
-		this.name = name;
-	}
+    public void setName(String name) {
+        this.name = name;
+    }
 
-	@Column(name = "age")
-	public Integer getAge() {
-		return this.age;
-	}
+    @Basic
+    @Column(name = "password")
+    public String getPassword() {
+        return password;
+    }
 
-	public void setAge(Integer age) {
-		this.age = age;
-	}
+    public void setPassword(String password) {
+        this.password = password;
+    }
 
-	@Column(name = "sex")
-	public Integer getSex() {
-		return this.sex;
-	}
+    @Basic
+    @Column(name = "sex")
+    public Integer getSex() {
+        return sex;
+    }
 
-	public void setSex(Integer sex) {
-		this.sex = sex;
-	}
+    public void setSex(Integer sex) {
+        this.sex = sex;
+    }
 
-	@Column(name = "email", length = 100)
-	public String getEmail() {
-		return this.email;
-	}
+    @Basic
+    @Column(name = "usertype")
+    public Integer getUsertype() {
+        return usertype;
+    }
 
-	public void setEmail(String email) {
-		this.email = email;
-	}
+    public void setUsertype(Integer usertype) {
+        this.usertype = usertype;
+    }
 
-	@Column(name = "password", length = 50)
-	public String getPassword() {
-		return this.password;
-	}
+    @Basic
+    @Column(name = "loginid")
+    public String getLoginid() {
+        return loginid;
+    }
 
-	public void setPassword(String password) {
-		this.password = password;
-	}
+    public void setLoginid(String loginid) {
+        this.loginid = loginid;
+    }
 
-	@Column(name = "usertype")
-	public Integer getUsertype() {
-		return this.usertype;
-	}
+    @Basic
+    @Column(name = "menutype")
+    public Integer getMenutype() {
+        return menutype;
+    }
 
-	public void setUsertype(Integer usertype) {
-		this.usertype = usertype;
-	}
+    public void setMenutype(Integer menutype) {
+        this.menutype = menutype;
+    }
 
-	@Column(name = "departid", length = 50)
-	public String getDepartid() {
-		return this.departid;
-	}
+    @Basic
+    @Column(name = "enable")
+    public Integer getEnable() {
+        return enable;
+    }
 
-	public void setDepartid(String departid) {
-		this.departid = departid;
-	}
+    public void setEnable(Integer enable) {
+        this.enable = enable;
+    }
 
-	@Override
-	public String toString() {
-		return "TSysUser [id=" + id + ", name=" + name + ", age=" + age + ", sex=" + sex + ", email=" + email + ", password=" + password + ", usertype=" + usertype + ", departid=" + departid + "]";
-	}
+    @Basic
+    @Column(name = "startdate")
+    public Date getStartdate() {
+        return startdate;
+    }
 
+    public void setStartdate(Date startdate) {
+        this.startdate = startdate;
+    }
+
+    @Basic
+    @Column(name = "enddate")
+    public Date getEnddate() {
+        return enddate;
+    }
+
+    public void setEnddate(Date enddate) {
+        this.enddate = enddate;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        TSysUser that = (TSysUser) o;
+
+        if (id != null ? !id.equals(that.id) : that.id != null) return false;
+        if (age != null ? !age.equals(that.age) : that.age != null) return false;
+        if (departid != null ? !departid.equals(that.departid) : that.departid != null) return false;
+        if (email != null ? !email.equals(that.email) : that.email != null) return false;
+        if (name != null ? !name.equals(that.name) : that.name != null) return false;
+        if (password != null ? !password.equals(that.password) : that.password != null) return false;
+        if (sex != null ? !sex.equals(that.sex) : that.sex != null) return false;
+        if (usertype != null ? !usertype.equals(that.usertype) : that.usertype != null) return false;
+        if (loginid != null ? !loginid.equals(that.loginid) : that.loginid != null) return false;
+        if (menutype != null ? !menutype.equals(that.menutype) : that.menutype != null) return false;
+        if (enable != null ? !enable.equals(that.enable) : that.enable != null) return false;
+        if (startdate != null ? !startdate.equals(that.startdate) : that.startdate != null) return false;
+        if (enddate != null ? !enddate.equals(that.enddate) : that.enddate != null) return false;
+
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = id != null ? id.hashCode() : 0;
+        result = 31 * result + (age != null ? age.hashCode() : 0);
+        result = 31 * result + (departid != null ? departid.hashCode() : 0);
+        result = 31 * result + (email != null ? email.hashCode() : 0);
+        result = 31 * result + (name != null ? name.hashCode() : 0);
+        result = 31 * result + (password != null ? password.hashCode() : 0);
+        result = 31 * result + (sex != null ? sex.hashCode() : 0);
+        result = 31 * result + (usertype != null ? usertype.hashCode() : 0);
+        result = 31 * result + (loginid != null ? loginid.hashCode() : 0);
+        result = 31 * result + (menutype != null ? menutype.hashCode() : 0);
+        result = 31 * result + (enable != null ? enable.hashCode() : 0);
+        result = 31 * result + (startdate != null ? startdate.hashCode() : 0);
+        result = 31 * result + (enddate != null ? enddate.hashCode() : 0);
+        return result;
+    }
 }

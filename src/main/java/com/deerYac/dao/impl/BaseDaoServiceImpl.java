@@ -38,7 +38,6 @@ public final class BaseDaoServiceImpl implements BaseDao {
 		return sessionFactory.getCurrentSession();
 	}
 
-	@Override
 	public void delete(String hql, Object... values) {
 		executeHql(hql, values);
 	}
@@ -49,7 +48,6 @@ public final class BaseDaoServiceImpl implements BaseDao {
 	 * @param objects
 	 *            对象集合
 	 */
-	@Override
 	public void deleteAll(Collection<?> objects) {
 		if (objects != null && objects.size() > 0) {
 			Session session = getSession();
@@ -61,14 +59,12 @@ public final class BaseDaoServiceImpl implements BaseDao {
 
 	/**
 	 * 删除
-	 * 
-	 * @param 对象名称
-	 * @param 参数名称
-	 * @param 值连接符
-	 * @param 参数使用
-	 *            “,”（英文逗号）分隔开
+	 * @param objectName 对象名称
+	 * @param paramName 参数名称
+	 * @param sqlconnector 值连接符
+	 * @param values 参数使用 “,”（英文逗号）分隔开
+	 * @return
 	 */
-	@Override
 	public boolean deleteAll(String objectName, String paramName, String sqlconnector, String values) {
 		if ((paramName == null) || (sqlconnector == null) || (values == null)
 				|| (values.length() < 1)) {
@@ -79,13 +75,12 @@ public final class BaseDaoServiceImpl implements BaseDao {
 
 	/**
 	 * 删除
-	 * 
-	 * @param 对象名称
-	 * @param 参数名称
-	 * @param 值连接符
-	 * @param 参数集合
+	 * @param objectName 对象名称
+	 * @param paramName 参数名称
+	 * @param sqlconnector 值连接符
+	 * @param values 参数集合
+	 * @return
 	 */
-	@Override
 	public boolean deleteAll(String objectName, String paramName, String sqlconnector, Object... values) {
 		if ((paramName == null) || (sqlconnector == null) || (values == null)
 				|| (values.length < 1)) {
@@ -116,7 +111,6 @@ public final class BaseDaoServiceImpl implements BaseDao {
 	/**
 	 * 保存实体
 	 */
-	@Override
 	public Serializable save(Object object) {
 		log.debug("saving Object instance");
 		Serializable l;
@@ -130,7 +124,6 @@ public final class BaseDaoServiceImpl implements BaseDao {
 		return l;
 	}
 
-	@Override
 	public boolean saveAll(List<?> objects) {
 		int batchSize = 50;
 		if ((objects != null) && (!objects.isEmpty())) {
@@ -166,7 +159,6 @@ public final class BaseDaoServiceImpl implements BaseDao {
 		return true;
 	}
 
-	@Override
 	public boolean saveOrUpdateAll(List<?> objects) {
 		int batchSize = 50;
 		if ((objects != null) && (!objects.isEmpty())) {
@@ -202,7 +194,7 @@ public final class BaseDaoServiceImpl implements BaseDao {
 		return true;
 	}
 
-	@Override
+	
 	public void update(Object object) {
 		log.debug("updating Object instance");
 		try {
@@ -215,7 +207,7 @@ public final class BaseDaoServiceImpl implements BaseDao {
 	}
 
 	@SuppressWarnings({ "rawtypes", "unchecked" })
-	@Override
+	
 	public void updateNotNull(Object entity) {
 		if (entity == null) {
 			throw new RuntimeException("被更新的EntityBean为null！");
@@ -260,7 +252,7 @@ public final class BaseDaoServiceImpl implements BaseDao {
 	/**
 	 * 更新列表中实体非空属性
 	 */
-	@Override
+	
 	public void updateNotNullAll(List<?> objects) {
 		if ((objects == null) || (objects.size() > 50)) {
 			throw new RuntimeException("不能执行此操作：集合为空或者待更新的EntityBean数量大于50个！");
@@ -275,7 +267,7 @@ public final class BaseDaoServiceImpl implements BaseDao {
 	/**
 	 * 保存或更新
 	 */
-	@Override
+	
 	public void saveOrUpdate(Object object) {
 		log.debug("saving Object instance");
 		try {
@@ -294,7 +286,6 @@ public final class BaseDaoServiceImpl implements BaseDao {
 	}
 
 	@SuppressWarnings({ "unchecked", "rawtypes" })
-	@Override
 	public <T> List<T> findByHql(String sql, Object... para) {
 		Query query = getSession().createQuery(sql);
 		if (para != null && para.length > 0) {
@@ -332,10 +323,9 @@ public final class BaseDaoServiceImpl implements BaseDao {
 	}
 
 	/**
-	 * 执行hql语句
-	 * 
-	 * @param hql
-	 * @param 参数集合
+	 *执行hql
+ 	 * @param hql
+	 * @param para 参数集合
 	 * @return
 	 */
 	@SuppressWarnings("rawtypes")
