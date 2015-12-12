@@ -13,12 +13,12 @@
   <property name="hibernate.hbm2ddl.auto">update</property>
   <property name="connection.url">jdbc:mysql://localhost:3306/test</property>
   <property name="connection.driver_class">com.mysql.jdbc.Driver</property>
-  <mapping class="com.deerYac.bean.TSysCode"/>
-  <mapping class="com.deerYac.bean.TSysDepart"/>
-  <mapping class="com.deerYac.bean.TSysMenu"/>
-  <mapping class="com.deerYac.bean.TSysRole"/>
-  <mapping class="com.deerYac.bean.TSysRoleMenu"/>
-  <mapping class="com.deerYac.bean.TSysSort"/>
-  <mapping class="com.deerYac.bean.TSysUserMenu"/>
+  <mapping class="com.deerYac.sys.bean.TSysCode"/>
+  <mapping class="com.deerYac.sys.bean.TSysDepart"/>
+  <mapping class="com.deerYac.sys.bean.TSysMenu"/>
+  <mapping class="com.deerYac.sys.bean.TSysRole"/>
+  <mapping class="com.deerYac.sys.bean.TSysRoleMenu"/>
+  <mapping class="com.deerYac.sys.bean.TSysSort"/>
+  <mapping class="com.deerYac.sys.bean.TSysUserMenu"/>
  </session-factory>
 </hibernate-configuration>

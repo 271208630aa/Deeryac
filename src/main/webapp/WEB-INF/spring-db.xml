@@ -55,7 +55,7 @@
 		<property name="configLocation" value="classpath:hibernate.cfg.xml"></property>
 		<property name="packagesToScan">
 			<list>
-				<value>com.deerYac.bean</value>
+				<value>com.deerYac.sys.bean</value>
 			</list>
 		</property>
 		<property name="hibernateProperties">
@@ -76,7 +76,7 @@
 		</tx:attributes>
 	</tx:advice>
 	<aop:config>
-		<aop:pointcut expression="execution(* com.deerYac.service..*.*(..))" id="txPointCut"/>
+		<aop:pointcut expression="execution(* com.deerYac.sys.service..*.*(..))" id="txPointCut"/>
 		<aop:advisor advice-ref="txAdvice" pointcut-ref="txPointCut"/>
 	</aop:config>
 
