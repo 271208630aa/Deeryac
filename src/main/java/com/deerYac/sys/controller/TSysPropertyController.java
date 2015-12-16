@@ -19,7 +19,7 @@ public class TSysPropertyController {
 	public String list(Model model){
 		List<TSysUser> users =  userService.ss2();
 		model.addAttribute("data", users);
-		return "user/list.jsp";
+		return "sys/sysProperty/list.jsp";
 	}
 	
 	/**
