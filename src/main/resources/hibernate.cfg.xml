@@ -1,24 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE hibernate-configuration PUBLIC "-//Hibernate/Hibernate Configuration DTD 3.0//EN"
-                                         "http://hibernate.sourceforge.net/hibernate-configuration-3.0.dtd">
+        "http://hibernate.sourceforge.net/hibernate-configuration-3.0.dtd">
 <hibernate-configuration>
- <session-factory>
- <!-- 配置hibernate 的基本属性 -->
- <!-- 1. 数据源需配置到IOC 容器中，所以在此不再需要配置数据源  -->
- <!-- 2. 关联的.hbm.xml 也在 IOC 容器配置 SessionFactory 实例时再进行配置 -->
- <!-- 3. 配置hibernate 的基本属性：方言，SQL 显示及格式化，生成数据表的策略以及二级缓存等。 -->
-  <property name="hibernate.dialect">org.hibernate.dialect.MySQL5InnoDBDialect</property>
-  <property name="hibernate.show_sql">true</property>
-  <property name="hibernate.format_sql">true</property>
-  <property name="hibernate.hbm2ddl.auto">update</property>
-  <property name="connection.url">jdbc:mysql://localhost:3306/test</property>
-  <property name="connection.driver_class">com.mysql.jdbc.Driver</property>
-  <mapping class="com.deerYac.sys.bean.TSysCode"/>
-  <mapping class="com.deerYac.sys.bean.TSysDepart"/>
-  <mapping class="com.deerYac.sys.bean.TSysMenu"/>
-  <mapping class="com.deerYac.sys.bean.TSysRole"/>
-  <mapping class="com.deerYac.sys.bean.TSysRoleMenu"/>
-  <mapping class="com.deerYac.sys.bean.TSysSort"/>
-  <mapping class="com.deerYac.sys.bean.TSysUserMenu"/>
- </session-factory>
+    <session-factory>
+        <!-- 配置hibernate 的基本属性 -->
+        <!-- 1. 数据源需配置到IOC 容器中，所以在此不再需要配置数据源  -->
+        <!-- 2. 关联的.hbm.xml 也在 IOC 容器配置 SessionFactory 实例时再进行配置 -->
+        <!-- 3. 配置hibernate 的基本属性：方言，SQL 显示及格式化，生成数据表的策略以及二级缓存等。 -->
+        <property name="hibernate.dialect">org.hibernate.dialect.MySQL5InnoDBDialect</property>
+        <property name="hibernate.show_sql">true</property>
+        <property name="hibernate.format_sql">true</property>
+        <property name="hibernate.hbm2ddl.auto">update</property>
+        <property name="packagesToScan">com.deerYac.sys.bean</property>
+        <property name="connection.url">jdbc:mysql://localhost:3306/test</property>
+        <property name="connection.driver_class">com.mysql.jdbc.Driver</property>
+    </session-factory>
 </hibernate-configuration>
