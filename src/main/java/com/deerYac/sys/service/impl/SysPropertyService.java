@@ -1,7 +1,7 @@
 package com.deerYac.sys.service.impl;
 
 import com.deerYac.sys.bean.TSysProperty;
-import com.deerYac.sys.service.BaseService;
+import com.deerYac.sys.service.BaseTools;
 import com.deerYac.sys.service.ServiceInterFace;
 import com.deerYac.sys.util.DBUtil;
 import com.deerYac.sys.util.Pager;
@@ -12,7 +12,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 @Service
-public class SysPropertyService extends BaseService implements ServiceInterFace {
+public class SysPropertyService extends BaseTools implements ServiceInterFace {
 
 	public List<?> list(Object obj, Pager pager) {
 		TSysProperty bean = (TSysProperty) obj;

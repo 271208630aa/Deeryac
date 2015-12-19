@@ -1,19 +1,18 @@
 package com.deerYac.sys.bean;
 
-import com.deerYac.sys.bean.extend.TSysRoleMenuExt;
+import com.deerYac.sys.bean.extend.TSysUserRoleExt;
 
 import javax.persistence.*;
 
 /**
- * 角色菜单
- * Created by jjwang on 2015/12/5 19:08.
+ * Created by jjwang on 2015/12/19.
  */
 @Entity
-@Table(name = "t_sys_role_menu")
-public class TSysRoleMenu extends TSysRoleMenuExt {
+@Table(name = "t_sys_user_role")
+public class TSysUserRole extends TSysUserRoleExt {
     private String id;
+    private String userid;
     private String roleid;
-    private String menuid;
 
     @Id
     @Column(name = "id")
@@ -26,6 +25,16 @@ public class TSysRoleMenu extends TSysRoleMenuExt {
     }
 
     @Basic
+    @Column(name = "userid")
+    public String getUserid() {
+        return userid;
+    }
+
+    public void setUserid(String userid) {
+        this.userid = userid;
+    }
+
+    @Basic
     @Column(name = "roleid")
     public String getRoleid() {
         return roleid;
@@ -35,34 +44,25 @@ public class TSysRoleMenu extends TSysRoleMenuExt {
         this.roleid = roleid;
     }
 
-    @Basic
-    @Column(name = "menuid")
-    public String getMenuid() {
-        return menuid;
-    }
-
-    public void setMenuid(String menuid) {
-        this.menuid = menuid;
-    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        TSysRoleMenu that = (TSysRoleMenu) o;
+        TSysUserRole that = (TSysUserRole) o;
 
         if (id != null ? !id.equals(that.id) : that.id != null) return false;
+        if (userid != null ? !userid.equals(that.userid) : that.userid != null) return false;
         if (roleid != null ? !roleid.equals(that.roleid) : that.roleid != null) return false;
-        return menuid != null ? menuid.equals(that.menuid) : that.menuid == null;
 
+        return true;
     }
 
     @Override
     public int hashCode() {
         int result = id != null ? id.hashCode() : 0;
+        result = 31 * result + (userid != null ? userid.hashCode() : 0);
         result = 31 * result + (roleid != null ? roleid.hashCode() : 0);
-        result = 31 * result + (menuid != null ? menuid.hashCode() : 0);
         return result;
     }
 }
