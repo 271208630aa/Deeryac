@@ -29,7 +29,6 @@ public class LoginController extends BaseController {
 
     /**
      * 登陆
-     *
      * @param user
      * @param modelMap
      * @param request
