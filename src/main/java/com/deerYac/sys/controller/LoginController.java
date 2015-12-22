@@ -1,10 +1,13 @@
 package com.deerYac.sys.controller;
 
+import com.alibaba.druid.support.json.JSONUtils;
 import com.deerYac.sys.Const;
+import com.deerYac.sys.bean.Message;
 import com.deerYac.sys.bean.TSysMenu;
 import com.deerYac.sys.bean.TSysUser;
 import com.deerYac.sys.service.impl.LoginService;
 import com.deerYac.sys.service.impl.SysMenuService;
+import com.deerYac.sys.util.JsonUtil;
 import com.deerYac.util.DateUtil;
 import com.deerYac.util.MD5;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +15,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -58,6 +62,37 @@ public class LoginController extends BaseController {
             }
         }
         return "manager/login.jsp";
+    }
+
+    /**
+     * 异步登陆
+     * @param user
+     * @param modelMap
+     * @param request
+     * @param response
+     * @return
+     */
+    @ResponseBody
+    @RequestMapping(value = "/ajaxLogin", produces = {"text/plain;charset=UTF-8"})
+    public String ajaxLogin(TSysUser user, ModelMap modelMap, HttpServletRequest request, HttpServletResponse response) {
+        Message msg = new Message();
+        //登陆是否成功
+        String state = login(user,modelMap,request,response);
+        //登陆信息
+        String errormessage = (String) modelMap.get(Const.LOGIN_ERROR_MESSAGE);
+        if(!StringUtils.isEmpty(state) && state.indexOf("login.jsp") == -1){
+            msg.setState(Const.SUCCESS);
+        }else{
+            msg.setState(Const.FAILED);
+        }
+        msg.setMsg(errormessage);
+        String jsondata;
+        try {
+            jsondata = JsonUtil.obj2json(msg);
+        } catch (Exception e) {
+            jsondata = "{ 'state' : "+Const.FAILED+",'msg' : '"+Const.MESSAGE_CONVERT_ERROR+"'}";
+        }
+        return jsondata;
     }
 
     @RequestMapping(value = "/index")
@@ -108,7 +143,7 @@ public class LoginController extends BaseController {
     public boolean checkCaptcha(String captcha, ModelMap modelMap, HttpServletRequest request) {
         if (!StringUtils.isEmpty(captcha)) {
             String sessionCaptcha = findCaptcha(request);
-            if (!StringUtils.isEmpty(sessionCaptcha) && captcha.equals(sessionCaptcha)) {
+            if (!StringUtils.isEmpty(sessionCaptcha) && captcha.equalsIgnoreCase(sessionCaptcha)) {
                 return true;
             }
         }

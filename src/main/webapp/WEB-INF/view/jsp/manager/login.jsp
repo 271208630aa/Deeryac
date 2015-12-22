@@ -28,9 +28,62 @@
     <script>DD_belatedPNG.fix('*');</script>
     <![endif]-->
     <script type="text/javascript">
+
         function refreshCaptcha(){
             var millseconds = new Date().getMilliseconds();
-            $("#captcha").attr("src","<%=path%>/authImage?reqtime="+millseconds);
+            $("#captchapic").attr("src","<%=path%>/authImage?reqtime="+millseconds);
+        }
+
+        var maskid;
+        //打开遮罩
+        function openMask(){
+            maskid = layer.msg('加载中', {icon: 16,time : -1,shade: [0.8]});
+        }
+
+        //关闭遮罩
+        function closeMask(){
+            layer.close(maskid);
+        }
+
+        function dologin(){
+            var loginid = $("#loginid").val();
+            if (typeof(loginid) === "undefined" || loginid === null || loginid === ''){
+                layer.alert('请输入用户名！', {icon: 1,end : function(){
+                    $("#loginid").focus();
+                }});
+                return ;
+            }
+            var password = $("#password").val();
+            if (typeof(password) === "undefined" || password === null || password === ''){
+                layer.alert('请输入密码！', {icon: 1,end : function(){
+                    $("#password").focus();
+                }});
+                return ;
+            }
+            var captcha = $("#captcha").val();
+            if (typeof(captcha) === "undefined" || captcha === null || captcha === '' || captcha==='验证码'){
+                layer.alert('请输入验证码！', {icon: 1,end : function(){
+                    $("#captcha").focus();
+                }});
+                return ;
+            }
+            var formdata = $("#subForm").serialize();
+            var url = baseurl+"/login/ajaxLogin";
+            openMask();
+            $.post(url, formdata,function(data){
+                  closeMask();
+                if (typeof(data) !== "undefined" && data !== null || data !== ''){
+                  var data = eval("("+data+")");
+                    var state = data.state;
+                    if(state!=1){
+                        layer.alert(data.msg,{icon: 1,end : function(){
+                            refreshCaptcha();
+                        }});
+                    }
+                }
+
+                }
+            );
         }
     </script>
 </head>
@@ -39,26 +92,24 @@
 <div class="header"></div>
 <div class="loginWraper">
     <div id="loginform" class="loginBox">
-        <form class="form form-horizontal" action="index.html" method="post">
+        <form class="form form-horizontal" action="/" method="post" id="subForm">
             <div class="row cl">
                 <label class="form-label col-3"><i class="Hui-iconfont">&#xe60d;</i></label>
                 <div class="formControls col-8">
-                    <input id="" name="" type="text" placeholder="账户" class="input-text size-L">
+                    <input id="loginid" name="loginid" type="text" placeholder="用户名" class="input-text size-L">
                 </div>
             </div>
             <div class="row cl">
                 <label class="form-label col-3"><i class="Hui-iconfont">&#xe60e;</i></label>
                 <div class="formControls col-8">
-                    <input id="" name="" type="password" placeholder="密码" class="input-text size-L">
+                    <input id="password" name="password" type="password" placeholder="密码" class="input-text size-L">
                 </div>
             </div>
             <div class="row cl">
                 <label class="form-label col-3 "><i class="Hui-iconfont Hui-iconfont-userid"></i></label>
                 <div class="formControls col-8">
-                    <input class="input-text size-L" type="text" placeholder="验证码"
-                           onblur="if(this.value==''){this.value='验证码:'}"
-                           onclick="if(this.value=='验证码:'){this.value='';}" value="验证码:" style="width:150px;">
-                    <img src="<%=path%>/authImage" id="captcha" name="captcha" style="width: 100px; height: 41px;" > <a id="kanbuq" href="javascript:refreshCaptcha();">看不清，换一张</a>
+                    <input class="input-text size-L" name="captcha" id="captcha" type="text" placeholder="验证码" style="width:150px;">
+                    <img src="<%=path%>/authImage" id="captchapic" name="captchapic" style="width: 100px; height: 41px;" > <a id="kanbuq" href="javascript:refreshCaptcha();">看不清，换一张</a>
                 </div>
             </div>
             <div class="row">
@@ -70,10 +121,8 @@
             </div>
             <div class="row">
                 <div class="formControls col-8 col-offset-3">
-                    <input name="" type="button" class="btn btn-success radius size-L"
-                           value="&nbsp;登&nbsp;&nbsp;&nbsp;&nbsp;录&nbsp;">
-                    <input name="" type="button" class="btn btn-default radius size-L"
-                           value="&nbsp;取&nbsp;&nbsp;&nbsp;&nbsp;消&nbsp;">
+                    <input name="loginin" id="loginin" type="button" class="btn btn-success radius size-L" value="&nbsp;登&nbsp;&nbsp;&nbsp;&nbsp;录&nbsp;" />
+                    <input name="reset" id="reset" type="button" class="btn btn-default radius size-L" value="&nbsp;取&nbsp;&nbsp;&nbsp;&nbsp;消&nbsp;" />
                 </div>
             </div>
         </form>
@@ -84,15 +133,12 @@
 <script type="text/javascript" src="<%=path%>/resources/uiframe/js/H-ui.js"></script>
 <script type="text/javascript" src="<%=path%>/resources/uiframe/lib/layer/2.1/layer.js"></script>
 <script>
-    var _hmt = _hmt || [];
-    (function () {
-        var hm = document.createElement("script");
-        hm.src = "//hm.baidu.com/hm.js?080836300300be57b7f34f4b3e97d911";
-        var s = document.getElementsByTagName("script")[0];
-        s.parentNode.insertBefore(hm, s);
-    })();
-    var _bdhmProtocol = (("https:" == document.location.protocol) ? " https://" : " http://");
-    document.write(unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js%3F080836300300be57b7f34f4b3e97d911' type='text/javascript'%3E%3C/script%3E"));
+    var baseurl = '<%=path%>';
+    $(document).ready(function(){
+       $("#loginin").bind("click",function(){
+           dologin();
+       })
+    });
 </script>
 </body>
 </html>
