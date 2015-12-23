@@ -72,7 +72,7 @@
             openMask();
             $.post(url, formdata,function(data){
                   closeMask();
-                if (typeof(data) !== "undefined" && data !== null || data !== ''){
+                if (typeof(data) !== "undefined" && data !== null && data !== ''){
                   var data = eval("("+data+")");
                     var state = data.state;
                     if(state!=1){

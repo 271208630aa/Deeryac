@@ -376,7 +376,7 @@ public final class DBUtil {
 	}
 
 	public static <T> T queryBean(String sql, Class<T> beanClass,
-			Object[] params) {
+			Object ... params) {
 		if (LOG.isInfoEnabled()) {
 			LOG.info(sql);
 		}
