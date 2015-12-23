@@ -16,6 +16,7 @@
     <mvc:resources location="/" mapping="/**/*.css"/>
     <mvc:resources location="/" mapping="/**/*.png"/>
     <mvc:resources location="/" mapping="/**/*.gif"/>
+    <mvc:resources location="/" mapping="/**/*.jpg"/>
     <bean id="jspViewResolver"
           class="org.springframework.web.servlet.view.InternalResourceViewResolver">
         <property name="prefix" value="/WEB-INF/view/jsp/"/>

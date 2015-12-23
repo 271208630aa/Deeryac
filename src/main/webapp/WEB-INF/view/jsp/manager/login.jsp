@@ -48,21 +48,21 @@
         function dologin(){
             var loginid = $("#loginid").val();
             if (typeof(loginid) === "undefined" || loginid === null || loginid === ''){
-                layer.alert('请输入用户名！', {icon: 1,end : function(){
+                layer.alert('请输入用户名！', {icon: 5,end : function(){
                     $("#loginid").focus();
                 }});
                 return ;
             }
             var password = $("#password").val();
             if (typeof(password) === "undefined" || password === null || password === ''){
-                layer.alert('请输入密码！', {icon: 1,end : function(){
+                layer.alert('请输入密码！', {icon: 5,end : function(){
                     $("#password").focus();
                 }});
                 return ;
             }
             var captcha = $("#captcha").val();
             if (typeof(captcha) === "undefined" || captcha === null || captcha === '' || captcha==='验证码'){
-                layer.alert('请输入验证码！', {icon: 1,end : function(){
+                layer.alert('请输入验证码！', {icon: 5,end : function(){
                     $("#captcha").focus();
                 }});
                 return ;
@@ -76,9 +76,11 @@
                   var data = eval("("+data+")");
                     var state = data.state;
                     if(state!=1){
-                        layer.alert(data.msg,{icon: 1,end : function(){
+                        layer.alert(data.msg,{icon: 5,end : function(){
                             refreshCaptcha();
                         }});
+                    }else{
+                        location.replace(location.href);
                     }
                 }
 

@@ -17,6 +17,8 @@ public class TSysMenu extends TSysMenuExt {
     private String url;
     private String flag;
     private String enable;
+    private Integer layer;
+    private Integer rank;
 
     @Id
     @Column(name = "id")
@@ -120,5 +122,25 @@ public class TSysMenu extends TSysMenuExt {
         result = 31 * result + (flag != null ? flag.hashCode() : 0);
         result = 31 * result + (enable != null ? enable.hashCode() : 0);
         return result;
+    }
+
+    @Basic
+    @Column(name = "layer")
+    public Integer getLayer() {
+        return layer;
+    }
+
+    public void setLayer(Integer layer) {
+        this.layer = layer;
+    }
+
+    @Basic
+    @Column(name = "rank")
+    public Integer getRank() {
+        return rank;
+    }
+
+    public void setRank(Integer rank) {
+        this.rank = rank;
     }
 }

@@ -5,13 +5,13 @@ import com.deerYac.sys.bean.extend.TSysPropertyExt;
 import javax.persistence.*;
 
 /**
- * Deeryac
+ * 系统参数
  * Created by jjwang on 2015/12/12 20:50.
  */
 @Entity
-@Table(name = "t_sys_property", schema = "", catalog = "test")
+@Table(name = "t_sys_property")
 public class TSysProperty extends TSysPropertyExt {
-    private String wid;
+    private String id;
     private String name;
     private String key;
     private String value;
@@ -20,13 +20,13 @@ public class TSysProperty extends TSysPropertyExt {
     private String enable;
 
     @Id
-    @Column(name = "wid")
-    public String getWid() {
-        return wid;
+    @Column(name = "id")
+    public String getId() {
+        return id;
     }
 
-    public void setWid(String wid) {
-        this.wid = wid;
+    public void setId(String id) {
+        this.id = id;
     }
 
     @Basic
@@ -96,20 +96,19 @@ public class TSysProperty extends TSysPropertyExt {
 
         TSysProperty that = (TSysProperty) o;
 
-        if (wid != null ? !wid.equals(that.wid) : that.wid != null) return false;
+        if (id != null ? !id.equals(that.id) : that.id != null) return false;
         if (name != null ? !name.equals(that.name) : that.name != null) return false;
         if (key != null ? !key.equals(that.key) : that.key != null) return false;
         if (value != null ? !value.equals(that.value) : that.value != null) return false;
         if (flag != null ? !flag.equals(that.flag) : that.flag != null) return false;
         if (type != null ? !type.equals(that.type) : that.type != null) return false;
-        if (enable != null ? !enable.equals(that.enable) : that.enable != null) return false;
+        return enable != null ? enable.equals(that.enable) : that.enable == null;
 
-        return true;
     }
 
     @Override
     public int hashCode() {
-        int result = wid != null ? wid.hashCode() : 0;
+        int result = id != null ? id.hashCode() : 0;
         result = 31 * result + (name != null ? name.hashCode() : 0);
         result = 31 * result + (key != null ? key.hashCode() : 0);
         result = 31 * result + (value != null ? value.hashCode() : 0);
