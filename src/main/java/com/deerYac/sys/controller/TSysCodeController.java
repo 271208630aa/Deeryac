@@ -20,8 +20,8 @@ import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 
 @Controller
-@RequestMapping(value = "/sys/sort")
-public class TSysSortController {
+@RequestMapping(value = "/sys/code")
+public class TSysCodeController {
     @Autowired
     private SysSortService sysSortService;
 
@@ -45,8 +45,15 @@ public class TSysSortController {
         return "sys/sysSort/input.jsp";
     }
 
+    /**
+     * 保存
+     * @param sort
+     * @param modelMap
+     * @return
+     * @throws JsonProcessingException
+     */
     @ResponseBody
-    @RequestMapping(value = "/save")
+    @RequestMapping(value = "/save",produces = { "application/json;charset=UTF-8" })
     public String save(TSysSort sort, ModelMap modelMap) throws JsonProcessingException {
         sysSortService.saveOrUpdate(sort);
         return JsonUtil.obj2json(sort);
@@ -59,7 +66,7 @@ public class TSysSortController {
      * @throws JsonProcessingException
      */
     @ResponseBody
-    @RequestMapping(value = "/save",produces = { "application/json;charset=UTF-8" })
+    @RequestMapping(value = "/remove",produces = { "application/json;charset=UTF-8" })
     public String remove(String id) throws JsonProcessingException {
         Message msg = new Message();
         if (StringUtils.isNotBlank(id)) {
@@ -74,5 +81,13 @@ public class TSysSortController {
         return JsonUtil.obj2json(msg);
     }
 
+    /**
+     * 打开新增界面，准备的数据
+     * @return
+     */
+    @RequestMapping(value = "/openinput")
+    public String openinput(){
+        return "sys/sysSort/input.jsp";
+    }
 
 }

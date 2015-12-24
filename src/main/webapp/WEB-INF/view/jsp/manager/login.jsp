@@ -7,7 +7,8 @@
     <meta charset="utf-8">
     <meta name="renderer" content="webkit|ie-comp|ie-stand">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no"/>
+    <meta name="viewport"
+          content="width=device-width,initial-scale=1,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no"/>
     <meta http-equiv="Cache-Control" content="no-siteapp"/>
     <LINK rel="Bookmark" href="<%=path%>/resources/uiframe/favicon.ico">
     <LINK rel="Shortcut Icon" href="<%=path%>/resources/uiframe/favicon.ico"/>
@@ -29,62 +30,69 @@
     <![endif]-->
     <script type="text/javascript">
 
-        function refreshCaptcha(){
+        function refreshCaptcha() {
             var millseconds = new Date().getMilliseconds();
-            $("#captchapic").attr("src","<%=path%>/authImage?reqtime="+millseconds);
+            $("#captchapic").attr("src", "<%=path%>/authImage?reqtime=" + millseconds);
         }
 
         var maskid;
         //打开遮罩
-        function openMask(){
-            maskid = layer.msg('加载中', {icon: 16,time : -1,shade: [0.8]});
+        function openMask() {
+            maskid = layer.msg('加载中', {icon: 16, time: -1, shade: [0.8]});
         }
 
         //关闭遮罩
-        function closeMask(){
+        function closeMask() {
             layer.close(maskid);
         }
 
-        function dologin(){
+        function dologin() {
             var loginid = $("#loginid").val();
-            if (typeof(loginid) === "undefined" || loginid === null || loginid === ''){
-                layer.alert('请输入用户名！', {icon: 5,end : function(){
-                    $("#loginid").focus();
-                }});
-                return ;
+            if (typeof(loginid) === "undefined" || loginid === null || loginid === '') {
+                layer.alert('请输入用户名！', {
+                    icon: 5, end: function () {
+                        $("#loginid").focus();
+                    }
+                });
+                return;
             }
             var password = $("#password").val();
-            if (typeof(password) === "undefined" || password === null || password === ''){
-                layer.alert('请输入密码！', {icon: 5,end : function(){
-                    $("#password").focus();
-                }});
-                return ;
+            if (typeof(password) === "undefined" || password === null || password === '') {
+                layer.alert('请输入密码！', {
+                    icon: 5, end: function () {
+                        $("#password").focus();
+                    }
+                });
+                return;
             }
             var captcha = $("#captcha").val();
-            if (typeof(captcha) === "undefined" || captcha === null || captcha === '' || captcha==='验证码'){
-                layer.alert('请输入验证码！', {icon: 5,end : function(){
-                    $("#captcha").focus();
-                }});
-                return ;
+            if (typeof(captcha) === "undefined" || captcha === null || captcha === '' || captcha === '验证码') {
+                layer.alert('请输入验证码！', {
+                    icon: 5, end: function () {
+                        $("#captcha").focus();
+                    }
+                });
+                return;
             }
             var formdata = $("#subForm").serialize();
-            var url = baseurl+"/login/ajaxLogin";
+            var url = baseurl + "/start/ajaxLogin";
             openMask();
-            $.post(url, formdata,function(data){
-                  closeMask();
-                if (typeof(data) !== "undefined" && data !== null && data !== ''){
-                  var data = eval("("+data+")");
-                    var state = data.state;
-                    if(state!=1){
-                        layer.alert(data.msg,{icon: 5,end : function(){
-                            refreshCaptcha();
-                        }});
-                    }else{
-                        location.replace(location.href);
-                    }
-                }
+            $.post(url, formdata, function (data) {
+                        closeMask();
+                        if (typeof(data) !== "undefined" && data !== null && data !== '') {
+                            var state = data.state;
+                            if (state != 1) {
+                                layer.alert(data.msg, {
+                                    icon: 5, end: function () {
+                                        refreshCaptcha();
+                                    }
+                                });
+                            } else {
+                                location.replace(location.href);
+                            }
+                        }
 
-                }
+                    }
             );
         }
     </script>
@@ -110,8 +118,11 @@
             <div class="row cl">
                 <label class="form-label col-3 "><i class="Hui-iconfont Hui-iconfont-userid"></i></label>
                 <div class="formControls col-8">
-                    <input class="input-text size-L" name="captcha" id="captcha" type="text" placeholder="验证码" style="width:150px;">
-                    <img src="<%=path%>/authImage" id="captchapic" name="captchapic" style="width: 100px; height: 41px;" > <a id="kanbuq" href="javascript:refreshCaptcha();">看不清，换一张</a>
+                    <input class="input-text size-L" name="captcha" id="captcha" type="text" placeholder="验证码"
+                           style="width:150px;">
+                    <img src="<%=path%>/authImage" id="captchapic" name="captchapic"
+                         style="width: 100px; height: 41px;"> <a id="kanbuq"
+                                                                 href="javascript:refreshCaptcha();">看不清，换一张</a>
                 </div>
             </div>
             <div class="row">
@@ -123,8 +134,10 @@
             </div>
             <div class="row">
                 <div class="formControls col-8 col-offset-3">
-                    <input name="loginin" id="loginin" type="button" class="btn btn-success radius size-L" value="&nbsp;登&nbsp;&nbsp;&nbsp;&nbsp;录&nbsp;" />
-                    <input name="reset" id="reset" type="button" class="btn btn-default radius size-L" value="&nbsp;取&nbsp;&nbsp;&nbsp;&nbsp;消&nbsp;" />
+                    <input name="loginin" id="loginin" type="button" class="btn btn-success radius size-L"
+                           value="&nbsp;登&nbsp;&nbsp;&nbsp;&nbsp;录&nbsp;"/>
+                    <input name="reset" id="reset" type="button" class="btn btn-default radius size-L"
+                           value="&nbsp;取&nbsp;&nbsp;&nbsp;&nbsp;消&nbsp;"/>
                 </div>
             </div>
         </form>
@@ -136,10 +149,10 @@
 <script type="text/javascript" src="<%=path%>/resources/uiframe/lib/layer/2.1/layer.js"></script>
 <script>
     var baseurl = '<%=path%>';
-    $(document).ready(function(){
-       $("#loginin").bind("click",function(){
-           dologin();
-       })
+    $(document).ready(function () {
+        $("#loginin").bind("click", function () {
+            dologin();
+        })
     });
 </script>
 </body>

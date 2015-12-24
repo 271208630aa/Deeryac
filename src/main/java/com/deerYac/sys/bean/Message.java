@@ -6,7 +6,7 @@ package com.deerYac.sys.bean;
  */
 public class Message {
     private String msg;
-    private int state;
+    private Integer state;
 
     public String getMsg() {
         return msg;
@@ -16,11 +16,11 @@ public class Message {
         this.msg = msg;
     }
 
-    public int getState() {
+    public Integer getState() {
         return state;
     }
 
-    public void setState(int state) {
+    public void setState(Integer state) {
         this.state = state;
     }
 }

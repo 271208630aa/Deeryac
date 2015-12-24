@@ -7,6 +7,7 @@ import com.deerYac.sys.service.BaseTools;
 import com.deerYac.sys.service.ServiceInterFace;
 import com.deerYac.sys.util.DBUtil;
 import com.deerYac.sys.util.Pager;
+import com.deerYac.sys.util.SeqFactory;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -18,10 +19,7 @@ import java.util.List;
  * 字典类别
  */
 @Service
-public class SysSortService implements ServiceInterFace {
-    @Autowired
-    private BaseDao baseService;
-
+public class SysSortService extends BaseTools implements ServiceInterFace {
     /**
      * 字典列表
      *
@@ -42,6 +40,10 @@ public class SysSortService implements ServiceInterFace {
                 sb.append(" and a.name = ? ");
                 param.add(sort.getName());
             }
+            if (StringUtils.isNotBlank(sort.getValue())) {
+                sb.append(" and b.value = ? ");
+                param.add(sort.getValue());
+            }
         }
         sb.append(" group by  a.id,a.code,a.flag,a.name");
         String sql = sb.toString();
@@ -54,15 +56,19 @@ public class SysSortService implements ServiceInterFace {
     }
 
     public TSysSort load(String id) {
-      //  TSysSort sort =  baseService.findById(TSysSort.class, id);
-        TSysSort sort = null;
-        if (StringUtils.isNotBlank(id)) {
-            sort = DBUtil.queryBean("select * from t_sys_sort a where a.id = ? ", TSysSort.class, id);
-        }
+        TSysSort sort = baseDao.findById(TSysSort.class, id);
         return sort;
     }
 
     public boolean saveOrUpdate(Object obj) {
+        TSysSort sort = (TSysSort)obj;
+        if(sort!=null){
+            if(StringUtils.isBlank(sort.getId())){
+                sort.setId(SeqFactory.getNewSequenceAlone());
+            }
+            baseDao.saveOrUpdate(sort);
+        }
+
         return false;
     }
 

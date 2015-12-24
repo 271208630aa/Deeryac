@@ -9,6 +9,7 @@ import javax.persistence.Transient;
  */
 public class TSysSortExt {
     protected Integer codecount;
+    protected String value;
 
     @Transient
     public Integer getCodecount() {
@@ -17,5 +18,14 @@ public class TSysSortExt {
 
     public void setCodecount(Integer codecount) {
         this.codecount = codecount;
+    }
+
+    @Transient
+    public String getValue() {
+        return value;
+    }
+
+    public void setValue(String value) {
+        this.value = value;
     }
 }

@@ -47,9 +47,10 @@
     </div>
     <div class="cl pd-5 bg-1 bk-gray mt-20">
         <span class="l">
-            <a class="btn btn-primary radius" onclick="add()" href="javascript:;"><i class="Hui-iconfont">&#xe600;</i> 新增</a>
-            <a class="btn btn-warning radius" onclick="edit()" href="javascript:;"><i class="Hui-iconfont">&#xe6df;</i> 修改</a>
-            <a class="btn btn-danger radius"  onclick="del()" href="javascript:;"  ><i class="Hui-iconfont">&#xe6e2;</i> 删除</a>
+            <a href="javascript:;" onclick="datadel()" class="btn btn-danger radius"><i class="Hui-iconfont">
+                &#xe6e2;</i> 删除</a>
+            <a class="btn btn-primary radius" data-title="新增" _href="article-add.html" onclick="Hui_admin_tab(this)"
+               href="javascript:;"><i class="Hui-iconfont">&#xe600;</i> 新增</a>
         </span>
         <span class="r">共有数据：<strong>54</strong> 条</span></div>
     <div class="mt-20">
@@ -67,13 +68,15 @@
             <c:forEach items="${result}" var="obj">
                 <tr class="text-c">
                     <td><input type="checkbox" value="${obj.id}" name="listCheck"></td>
-                    <td><u style="cursor:pointer" class="text-primary" onClick="edit('${obj.id}')" title="查看">${obj.code}</u></td>
-                    <td><u style="cursor:pointer" class="text-primary" onClick="edit('${obj.id}')" title="查看">${obj.name}</u></td>
-                    <td><a class="badge badge-success " onclick="addTab('数据字典子集','<%=path%>/sys/code/list?sortcode=${obj.code}')" title="维护子集">${obj.codecount}</a></td>
+                    <td><u style="cursor:pointer" class="text-primary" onClick="edit('${obj.id}')"
+                           title="查看">${obj.code}</u></td>
+                    <td><u style="cursor:pointer" class="text-primary" onClick="edit('${obj.id}')"
+                           title="查看">${obj.name}</u></td>
+                    <td><span class="badge badge-success">${obj.codecount}</span></td>
                     <td class="f-14 td-manage">
-                        <a style="text-decoration:none" class="ml-5" onClick="edit('${obj.id}')" href="javascript:;" title="类别修改"><i class="Hui-iconfont"> &#xe6df;</i></a>
-                        <a style="text-decoration:none" class="ml-5" onClick="del('${obj.id}')" href="javascript:;" title="类别删除"><i class="Hui-iconfont"> &#xe6e2;</i></a>
-                        <a style="text-decoration:none" class="ml-5" href="javascript:;" onclick="addTab('数据字典子集','<%=path%>/sys/code/list?sortcode=${obj.code}')" title="维护子集"><i class="Hui-iconfont"> &#xe715;</i></a>
+                        <a style="text-decoration:none" class="ml-5" onClick="edit('10001')" href="javascript:;" title="编辑类别"><i class="Hui-iconfont"> &#xe6df;</i></a>
+                        <a style="text-decoration:none" class="ml-5" onClick="del(this,'10001')" href="javascript:;" title="删除类别"><i class="Hui-iconfont"> &#xe6e2;</i></a>
+                        <a style="text-decoration:none" class="ml-5" href="javascript:;" data-title="数据字典子集" _href="" onclick="addTab('数据字典子集','<%=path%>/sys/code')" title="维护子集"><i class="Hui-iconfont Hui-iconfont-gengduo"></i></a>
                     </td>
                 </tr>
             </c:forEach>

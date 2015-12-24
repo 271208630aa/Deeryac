@@ -57,7 +57,7 @@ public final class DBUtil {
 		return updatedRows;
 	}
 
-	public static int executeSQL(String sql, Object[] in_params) {
+	public static int executeSQL(String sql, Object ... in_params) {
 		int updatedRows = -1;
 		if (SpringUtils.getJdbcTemplate() != null) {
 			if (LOG.isInfoEnabled()) {

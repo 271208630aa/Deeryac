@@ -24,7 +24,7 @@ import java.util.Date;
 import java.util.List;
 
 @Controller
-@RequestMapping(value = "/login")
+@RequestMapping(value = "/start")
 public class LoginController extends BaseController {
     @Autowired
     private LoginService loginService;
@@ -73,7 +73,7 @@ public class LoginController extends BaseController {
      * @return
      */
     @ResponseBody
-    @RequestMapping(value = "/ajaxLogin", produces = {"text/plain;charset=UTF-8"})
+    @RequestMapping(value = "/ajaxLogin", produces = {"application/json;charset=UTF-8"})
     public String ajaxLogin(TSysUser user, ModelMap modelMap, HttpServletRequest request, HttpServletResponse response) {
         Message msg = new Message();
         //登陆是否成功

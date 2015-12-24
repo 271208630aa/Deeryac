@@ -1,5 +1,6 @@
 package com.deerYac.sys.util;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -29,7 +30,7 @@ public class JsonUtil {
     /**
      * javaBean,list,array convert to json string
      */
-    public static String obj2json(Object obj) throws Exception {
+    public static String obj2json(Object obj) throws JsonProcessingException {
         return objectMapper.writeValueAsString(obj);
     }
 
