@@ -78,8 +78,8 @@
             var url = baseurl + "/start/ajaxLogin";
             openMask();
             $.post(url, formdata, function (data) {
-                        closeMask();
                         if (typeof(data) !== "undefined" && data !== null && data !== '') {
+                            closeMask();
                             var state = data.state;
                             if (state != 1) {
                                 layer.alert(data.msg, {

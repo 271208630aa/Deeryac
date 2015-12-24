@@ -11,9 +11,10 @@
     <%@ include file="../../comm/inputhead.jsp" %>
     <script type="text/javascript">
         $(function () {
-            $("#form-admin-add").Validform({
+            $("#submitForm").Validform({
                 tiptype: 2,
                 callback: function (form) {
+                    alert('comming')
                     formsave();
                 }
             });
@@ -28,7 +29,7 @@
 </head>
 <body>
 <div class="pd-20">
-    <form action="" method="post" class="form form-horizontal" id="form-admin-add">
+    <form action="" method="post" class="form form-horizontal" id="submitForm">
         <input type="hidden" name="id" id="id" value="${obj.id}">
         <div class="row cl">
             <label class="form-label col-3"><span class="c-red">*</span>编码：</label>

@@ -87,7 +87,7 @@ public class TSysCodeController {
      */
     @RequestMapping(value = "/openinput")
     public String openinput(){
-        return "sys/sysSort/input.jsp";
+        return "sys/sysCode/input.jsp";
     }
 
 }

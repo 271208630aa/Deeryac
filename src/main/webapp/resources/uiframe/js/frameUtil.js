@@ -3,6 +3,16 @@
  *
  **/
 
+var maskid;
+//打开遮罩
+function openMask() {
+    maskid = layer.msg('加载中', {icon: 16, time: -1, shade: [0.8]});
+}
+
+//关闭遮罩
+function closeMask() {
+    layer.close(maskid);
+}
 /**
  * 表单保存方法
  */
@@ -17,6 +27,7 @@ function formsave() {
     } else {
         pathurl = saveUrl;
     }
+    alert(pathurl)
     timeout_i = 15;
     isOut = true;
     openMask();
@@ -24,7 +35,7 @@ function formsave() {
         url: pathurl,
         type: "POST",
         dataType: "json",
-        data: $("form").serialize(),
+        data: $("#submitForm").serialize(),
         timeout: 1000 * 10,
         error: function (XMLHttpRequest, textStatus, errorThrown) {
             closeMask();
@@ -33,7 +44,6 @@ function formsave() {
             });
         },
         success: function (data) {
-            alert(data)
             closeMask();
             if (typeof(data.state) !== "undefined" && data.state != null && data.state != '' && data.state != 0) {
                 parent.layer.alert(data.msg, {

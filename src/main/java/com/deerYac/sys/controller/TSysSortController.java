@@ -8,6 +8,7 @@ import com.deerYac.sys.util.DBUtil;
 import com.deerYac.sys.util.JsonUtil;
 import com.deerYac.sys.util.Pager;
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.sun.javafx.tk.DummyToolkit;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -45,8 +46,15 @@ public class TSysSortController {
         return "sys/sysSort/input.jsp";
     }
 
+    /**
+     * 保存
+     * @param sort
+     * @param modelMap
+     * @return
+     * @throws JsonProcessingException
+     */
     @ResponseBody
-    @RequestMapping(value = "/save")
+    @RequestMapping(value = "/save", produces = {"application/json;charset=UTF-8"})
     public String save(TSysSort sort, ModelMap modelMap) throws JsonProcessingException {
         sysSortService.saveOrUpdate(sort);
         return JsonUtil.obj2json(sort);
@@ -54,25 +62,36 @@ public class TSysSortController {
 
     /**
      * 删除
+     *
      * @param id
      * @return
      * @throws JsonProcessingException
      */
     @ResponseBody
-    @RequestMapping(value = "/save",produces = { "application/json;charset=UTF-8" })
+    @RequestMapping(value = "/remove", produces = {"application/json;charset=UTF-8"})
     public String remove(String id) throws JsonProcessingException {
         Message msg = new Message();
         if (StringUtils.isNotBlank(id)) {
             id = id.replaceAll(",", "','");
+            String del_syscode = "delete from t_sys_code a where exists(select 1 from t_sys_sort b where a.sortcode=b.code and b.id in ('" + id + "'))";
             String sql = "delete from t_sys_sort a where a.id in ('" + id + "') ";
+            DBUtil.executeSQL(del_syscode);
             int c = DBUtil.executeSQL(sql);
             msg.setState(c > 0 ? Const.SUCCESS : Const.FAILED);
         }
-        if(msg.getState()==null){
+        if (msg.getState() == null) {
             msg.setState(Const.FAILED);
         }
         return JsonUtil.obj2json(msg);
     }
 
-
+    /**
+     * 打开新增界面，准备的数据
+     *
+     * @return
+     */
+    @RequestMapping(value = "/openinput")
+    public String openinput() {
+        return "sys/sysSort/input.jsp";
+    }
 }
