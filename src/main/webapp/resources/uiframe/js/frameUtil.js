@@ -31,12 +31,29 @@ function formsave() {
     timeout_i = 15;
     isOut = true;
     openMask();
-    $.ajax({
+    $.post(pathurl, $("#submitForm").serialize(), function (data) {
+        closeMask();
+        if (typeof(data) !== "undefined" && data !== null && data !== '') {
+            if (data.state == null || data.state == 1) {
+                layer.alert(data.msg, {
+                    icon: 0
+                });
+                return ;
+            }
+
+        }
+        layer.alert("保存失败！", {
+            icon: 1
+        });
+        return;
+    });
+
+   /* $.ajax({
         url: pathurl,
         type: "POST",
         dataType: "json",
         data: $("#submitForm").serialize(),
-        timeout: 1000 * 10,
+        timeout: 1000 * 100,
         error: function (XMLHttpRequest, textStatus, errorThrown) {
             closeMask();
             layer.alert('请求超时！', {
@@ -67,7 +84,7 @@ function formsave() {
                 }
             }
         }
-    });
+    });*/
 }
 
 /**
@@ -116,7 +133,7 @@ function edit(id, title, url) {
         var slength = getCheckedCount();
         if (slength == 1) {
             id = getCheckBoxValueAsString("listCheck");
-        }else{
+        } else {
             layer.alert("请勾选一条记录！", {icon: 5});
             return;
         }
@@ -160,7 +177,7 @@ function del() {
     }
 }
 
-function getCheckedCount(){
+function getCheckedCount() {
     slength = 0;
     var a = document.getElementsByName("listCheck");
     for (var i = 0; i < a.length; i++) {

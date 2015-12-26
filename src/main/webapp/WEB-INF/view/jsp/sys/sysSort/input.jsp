@@ -12,10 +12,11 @@
     <script type="text/javascript">
         $(function () {
             $("#submitForm").Validform({
+                btnSubmit:"#btn_sub",
                 tiptype: 2,
+                ajaxPost:true,
                 callback: function (form) {
-                    alert('comming')
-                    formsave();
+                   // formsave();
                 }
             });
         });
@@ -29,7 +30,7 @@
 </head>
 <body>
 <div class="pd-20">
-    <form action="" method="post" class="form form-horizontal" id="submitForm">
+    <form action="<%=path%>/sys/sort/save" method="post" class="form form-horizontal" id="submitForm" onsubmit="return false;">
         <input type="hidden" name="id" id="id" value="${obj.id}">
         <div class="row cl">
             <label class="form-label col-3"><span class="c-red">*</span>编码：</label>
@@ -56,7 +57,7 @@
         </div>
         <div class="row cl">
             <div class="col-9 col-offset-3">
-                <input class="btn btn-primary radius" type="submit" value="&nbsp;&nbsp;保存&nbsp;&nbsp;">
+                <input class="btn btn-primary radius" id="btn_sub" type="button" value="&nbsp;&nbsp;保存&nbsp;&nbsp;">
             </div>
         </div>
     </form>

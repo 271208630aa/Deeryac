@@ -40,9 +40,15 @@ public final class BaseDaoServiceImpl implements BaseDao {
      */
     public void deleteAll(Collection<?> objects) {
         if (objects != null && objects.size() > 0) {
-            Session session = getSession();
-            for (Object entity : objects) {
-                session.delete(entity);
+            Session session = sessionFactory.openSession();
+            try {
+                for (Object entity : objects) {
+                    session.delete(entity);
+                }
+            } catch (Exception e) {
+                log.error(e.toString());
+            } finally {
+                session.close();
             }
         }
     }
@@ -104,14 +110,20 @@ public final class BaseDaoServiceImpl implements BaseDao {
      * 保存实体
      */
     public Serializable save(Object object) {
-        log.debug("saving Object instance");
-        Serializable l;
+        Session session = sessionFactory.openSession();
+        Serializable l = null;
+        Transaction tx = session.beginTransaction();
+
         try {
-            l = getSession().save(object);
-            log.debug("save successful");
-        } catch (RuntimeException re) {
-            log.error("save failed", re);
-            throw re;
+            //保存用户
+            l = session.save(object);
+            tx.commit();
+        } catch (HibernateException e) {
+            log.error(e.toString());
+            tx.rollback();
+            throw e;
+        } finally {
+            session.close();
         }
         return l;
     }
@@ -119,7 +131,7 @@ public final class BaseDaoServiceImpl implements BaseDao {
     public boolean saveAll(List<?> objects) {
         int batchSize = 50;
         if ((objects != null) && (!objects.isEmpty())) {
-            Session session = getSession();
+            Session session = sessionFactory.openSession();
             Transaction tx = session.getTransaction();
 
             boolean newTrans = false;
@@ -145,6 +157,8 @@ public final class BaseDaoServiceImpl implements BaseDao {
             } catch (HibernateException e) {
                 tx.rollback();
                 log.error(e.toString());
+            } finally {
+                session.close();
             }
         }
 
@@ -154,7 +168,7 @@ public final class BaseDaoServiceImpl implements BaseDao {
     public boolean saveOrUpdateAll(List<?> objects) {
         int batchSize = 50;
         if ((objects != null) && (!objects.isEmpty())) {
-            Session session = getSession();
+            Session session = sessionFactory.openSession();
             Transaction tx = session.getTransaction();
 
             boolean newTrans = false;
@@ -180,6 +194,8 @@ public final class BaseDaoServiceImpl implements BaseDao {
             } catch (HibernateException e) {
                 tx.rollback();
                 log.error(e.toString());
+            } finally {
+                session.close();
             }
         }
 
@@ -187,25 +203,38 @@ public final class BaseDaoServiceImpl implements BaseDao {
     }
 
 
+    /**
+     * 更新
+     *
+     * @param object
+     */
     public void update(Object object) {
-        log.debug("updating Object instance");
+        Session session = sessionFactory.openSession();
+        Transaction tx = null;
         try {
-            getSession().update(object);
-            log.debug("update successful");
-        } catch (RuntimeException re) {
-            log.error("update failed", re);
-            throw re;
+            // 取得当前线程Session
+            tx = session.beginTransaction();
+
+            //保存用户
+            session.update(object);
+            tx.commit();
+        } catch (HibernateException e) {
+            if (tx != null) {
+                tx.rollback();
+            }
+            log.error(e.toString());
+            throw e;
+        } finally {
+            session.close();
         }
     }
 
     @SuppressWarnings({"rawtypes", "unchecked"})
-
     public void updateNotNull(Object entity) {
         if (entity == null) {
             throw new RuntimeException("被更新的EntityBean为null！");
         }
-        SessionFactory sf = getSession().getSessionFactory();
-        ClassMetadata cm = sf.getClassMetadata(entity.getClass());
+        ClassMetadata cm = sessionFactory.getClassMetadata(entity.getClass());
         String idProperty = cm.getIdentifierPropertyName();
         if (idProperty == null) {
             throw new RuntimeException("此动态更新方法不支持没有主键属性的EntityBean！");
@@ -262,24 +291,52 @@ public final class BaseDaoServiceImpl implements BaseDao {
 
     public void saveOrUpdate(Object object) {
         log.debug("saving Object instance");
+        Session session = sessionFactory.openSession();
+        Transaction tx = null;
         try {
-            getSession().saveOrUpdate(object);
+            tx = session.beginTransaction();
+            session.saveOrUpdate(object);
+            tx.commit();
             log.debug("save successful");
         } catch (RuntimeException re) {
             log.error("saveOrUpdate failed", re);
+            if (tx != null) {
+                tx.rollback();
+            }
             throw re;
+        } finally {
+            session.close();
         }
 
     }
 
+    /**
+     * 根据主键加载数据
+     *
+     * @param objClass
+     * @param id
+     * @param <T>
+     * @return
+     */
     @SuppressWarnings("unchecked")
     public <T> T findById(Class<?> objClass, Object id) {
-        return (T) getSession().get(objClass, (Serializable) id);
+        Session session = sessionFactory.openSession();
+        T t = null;
+        try {
+            t = (T) session.get(objClass, (Serializable) id);
+        } catch (Exception e) {
+            log.error("findById failed", e);
+
+        } finally {
+            session.close();
+        }
+        return t;
     }
 
     @SuppressWarnings({"unchecked", "rawtypes"})
     public <T> List<T> findByHql(String sql, Object... para) {
-        Query query = getSession().createQuery(sql);
+        Session session = sessionFactory.openSession();
+        Query query = session.createQuery(sql);
         if (para != null && para.length > 0) {
             int size = para.length;
             for (int i = 0; i < size; i++) {
@@ -310,7 +367,14 @@ public final class BaseDaoServiceImpl implements BaseDao {
                 }
             }
         }
-        List<T> list = query.list();
+        List<T> list = null;
+        try {
+            list = query.list();
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            session.close();
+        }
         return list;
     }
 
@@ -323,7 +387,8 @@ public final class BaseDaoServiceImpl implements BaseDao {
      */
     @SuppressWarnings("rawtypes")
     public int executeHql(final String hql, final Object... para) {
-        Query query = getSession().createQuery(hql);
+        Session session = sessionFactory.openSession();
+        Query query = session.createQuery(hql);
         if (para != null) {
             for (int i = 0; i < para.length; i++) {
                 if (para[i] != null) {
@@ -351,8 +416,21 @@ public final class BaseDaoServiceImpl implements BaseDao {
                 }
             }
         }
-        int i = query.executeUpdate();
-        return Integer.valueOf(i);
+        Transaction tx = null;
+        try {
+            tx = session.beginTransaction();
+            int i = query.executeUpdate();
+            tx.commit();
+            return i;
+        } catch (Exception e) {
+            if (tx != null) {
+                tx.rollback();
+            }
+            log.error(e.toString());
+        } finally {
+            session.close();
+        }
+        return -1;
     }
 
     public static Object getPojoPropertyValue(Object entity, String propertyName) {
