@@ -13,86 +13,8 @@ function openMask() {
 function closeMask() {
     layer.close(maskid);
 }
-/**
- * 表单保存方法
- */
-var saveSuccess = "保存成功！";//保存成功提示文字
-var saveClose = false;//保存成功是否关闭提示框
-var saveAfterMethod = true;//保存成功是否调用回调方法
-var saveUrl = null;
-function formsave() {
-    var pathurl = "";
-    if (saveUrl == null || saveUrl == "") {
-        pathurl = base_requrl + "/save";
-    } else {
-        pathurl = saveUrl;
-    }
-    alert(pathurl)
-    timeout_i = 15;
-    isOut = true;
-    openMask();
-    $.post(pathurl, $("#submitForm").serialize(), function (data) {
-        closeMask();
-        if (typeof(data) !== "undefined" && data !== null && data !== '') {
-            if (data.state == null || data.state == 1) {
-                layer.alert(data.msg, {
-                    icon: 0
-                });
-                return ;
-            }
 
-        }
-        layer.alert("保存失败！", {
-            icon: 1
-        });
-        return;
-    });
 
-   /* $.ajax({
-        url: pathurl,
-        type: "POST",
-        dataType: "json",
-        data: $("#submitForm").serialize(),
-        timeout: 1000 * 100,
-        error: function (XMLHttpRequest, textStatus, errorThrown) {
-            closeMask();
-            layer.alert('请求超时！', {
-                icon: 0
-            });
-        },
-        success: function (data) {
-            closeMask();
-            if (typeof(data.state) !== "undefined" && data.state != null && data.state != '' && data.state != 0) {
-                parent.layer.alert(data.msg, {
-                    icon: 0,
-                    skin: 'layer-ext-seaning'
-                });
-            } else {
-                if (saveClose) {
-                    if (saveAfterMethod) {
-                        saveCallBack(data);
-                    }
-                } else {
-                    layer.alert(saveSuccess, {
-                        icon: 1,
-                        skin: 'layer-ext-seaning'
-                    }, function () {
-                        if (saveAfterMethod) {
-                            saveCallBack(data);
-                        }
-                    });
-                }
-            }
-        }
-    });*/
-}
-
-/**
- * 回调函数
- * @param data
- */
-function saveCallBack(data) {
-}
 
 /**
  * 添加
@@ -152,10 +74,18 @@ function edit(id, title, url) {
 /**
  * 删除
  */
-function del() {
-    var slength = getCheckedCount();
+function del(id) {
+    var ids;
+    var slength = 0;
+    if (typeof(id) !== "undefined" && id !== null && id !== '') {
+        slength = 1;
+        ids = id;
+    }
+    slength = slength > 0 ? slength : getCheckedCount();
     if (slength > 0) {
-        var ids = getCheckBoxValueAsString("listCheck");
+        if (typeof(ids) === "undefined" || ids === null || ids === '') {
+            ids = getCheckBoxValueAsString("listCheck");
+        }
         layerid = layer.confirm('确认要删除吗？', {
             btn: ['确认', '取消'] //按钮
         }, function () {
@@ -163,7 +93,11 @@ function del() {
             $.post(base_requrl + "/remove", {'id': ids}, function (data) {
                 closeMask();
                 if (data.state == 1) {
-                    layer.alert("已成功删除！", {icon: 3});
+                    layer.alert("已成功删除！", {icon: 1});
+                    var deldata = ids.split(",");
+                    for(var i=0;i<deldata.length;i++){
+                        $("#"+deldata[i]).closest("tr").remove();
+                    }
                 } else {
                     layer.alert("删除失败！", {icon: 5});
                 }

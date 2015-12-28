@@ -30,6 +30,8 @@ public class TSysSortController {
     public String list(TSysSort sort, Pager pager, ModelMap modelMap, HttpServletRequest request, HttpServletResponse response) {
         List<TSysSort> sysSorts = sysSortService.list(sort, pager);
         modelMap.put("result", sysSorts);
+        modelMap.put("pager",pager);
+        modelMap.put("obj",sort);
         return "sys/sysSort/list.jsp";
     }
 
@@ -73,8 +75,8 @@ public class TSysSortController {
         Message msg = new Message();
         if (StringUtils.isNotBlank(id)) {
             id = id.replaceAll(",", "','");
-            String del_syscode = "delete from t_sys_code a where exists(select 1 from t_sys_sort b where a.sortcode=b.code and b.id in ('" + id + "'))";
-            String sql = "delete from t_sys_sort a where a.id in ('" + id + "') ";
+            String del_syscode = "delete a from t_sys_code a where exists(select 1 from t_sys_sort b where a.sortcode=b.code and b.id in ('" + id + "'))";
+            String sql = "delete a from t_sys_sort a where a.id in ('" + id + "') ";
             DBUtil.executeSQL(del_syscode);
             int c = DBUtil.executeSQL(sql);
             msg.setState(c > 0 ? Const.SUCCESS : Const.FAILED);

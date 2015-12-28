@@ -10,27 +10,18 @@
     <title>系统参数维护</title>
     <%@ include file="../../comm/inputhead.jsp" %>
     <script type="text/javascript">
-        $(function () {
-            $("#submitForm").Validform({
-                btnSubmit:"#btn_sub",
-                tiptype: 2,
-                ajaxPost:true,
-                callback: function (form) {
-                   // formsave();
-                }
-            });
-        });
-
-        function saveCallBack(data){
-            if(data!=null){
-                $("#id").val(data.id);
-            }
+        /**
+         * 回调函数
+         * @param data
+         */
+        function saveCallBack(data) {
+            $("#id").val(data.id);
         }
     </script>
 </head>
 <body>
 <div class="pd-20">
-    <form action="<%=path%>/sys/sort/save" method="post" class="form form-horizontal" id="submitForm" onsubmit="return false;">
+    <form action="<%=path%>/sys/sort/save" method="post" class="form form-horizontal" id="submitForm">
         <input type="hidden" name="id" id="id" value="${obj.id}">
         <div class="row cl">
             <label class="form-label col-3"><span class="c-red">*</span>编码：</label>
